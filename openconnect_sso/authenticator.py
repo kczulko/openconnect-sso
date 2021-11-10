@@ -77,7 +77,6 @@ class Authenticator:
         request = open("hostscan-data").read();
         logger.debug("Sending CSD request", content=request)
         self.session.cookies.set("sdesktop", auth_request_response.host_scan_token)
-        logger.debug("Taki jest host:", content=self.host.vpn_url)
         response = self.session.post(self.host.vpn_url + "+CSCOE+/sdesktop/scan.xml?reusebrowser=1", request)
         logger.debug("CSD response received", content=response.content)
 
