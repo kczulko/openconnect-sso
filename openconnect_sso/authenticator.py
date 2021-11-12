@@ -1,10 +1,10 @@
 import attr
 import requests
 import structlog
+import pkgutil
 from lxml import etree, objectify
 
 from openconnect_sso.saml_authenticator import authenticate_in_browser
-
 
 logger = structlog.get_logger()
 
@@ -74,7 +74,7 @@ class Authenticator:
         )
 
     def _complete_csd(self, auth_request_response):
-        request = open("hostscan-data").read();
+        request = pkgutil.get_data(__name__, "hostscan-data")
         logger.debug("Sending CSD request", content=request)
         self.session.cookies.set("sdesktop", auth_request_response.host_scan_token)
         response = self.session.post(self.host.vpn_url + "+CSCOE+/sdesktop/scan.xml?reusebrowser=1", request)
